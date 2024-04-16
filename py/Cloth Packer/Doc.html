@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloth Packing Script Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #64b5f6;
+            text-align: center;
+        }
+
+        h2 {
+            color: #90caf9;
+            margin-top: 20px;
+        }
+
+        p {
+            color: #bdbdbd;
+            line-height: 1.6;
+        }
+
+        pre {
+            background-color: #424242;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+            font-size: 14px;
+            color: #e0e0e0;
+        }
+
+        .function {
+            margin-bottom: 30px;
+        }
+
+        .function-name {
+            color: #b2dfdb;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .parameter {
+            color: #80cbc4;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Cloth Packing Script Documentation</h1>
+
+        <div class="function">
+            <h2 class="function-name">read_file(<span class="parameter">file_name</span>: str):</h2>
+            <p>
+                This function reads a file containing cloth types, styles, and pieces information. The file
+                should be formatted in a specific way, with each line containing specific information. The
+                function returns a tuple containing the number of cloth types, the number of styles, a dictionary
+                mapping cloth types to compatible styles and vice versa, and a list of pieces.
+            </p>
+        </div>
+
+        <div class="function">
+            <h2 class="function-name">get_remaining_cloth(<span class="parameter">pieces</span>):</h2>
+            <p>
+                This function takes a list of pieces and returns a list of pieces that have not been packed into boxes
+                yet.
+            </p>
+        </div>
+
+        <div class="function">
+            <h2 class="function-name">process_piece(<span class="parameter">piece</span>, <span
+                    class="parameter">remaining_cloth</span>, <span class="parameter">compatible</span>, <span
+                    class="parameter">box</span>, <span class="parameter">cod</span>):</h2>
+            <p>
+                This function processes a piece of cloth, checking its compatibility with other pieces and packing it
+                into
+                a box if possible.
+            </p>
+        </div>
+
+        <div class="function">
+            <h2 class="function-name">pack_box(<span class="parameter">number_of_cloth_types</span>: int, <span
+                    class="parameter">number_of_styles</span>: int, <span class="parameter">compatible</span>: dict[str,
+                list], <span class="parameter">pieces</span>: list[list]):</h2>
+            <p>
+                This function packs the given pieces of cloth into boxes based on certain criteria. It uses the
+                get_remaining_cloth and process_piece functions to do this. The function returns a tuple containing
+                a list of boxes and a list of remaining cloth pieces that could not be packed into boxes.
+            </p>
+        </div>
+
+        <div class="function">
+            <h2 class="function-name">main(<span class="parameter">PATH_TO_FILE</span>: str):</h2>
+            <p>
+                This function reads the file and packs the boxes using the read_file and pack_box functions. It returns
+                a tuple containing the result of read_file and the result of pack_box.
+            </p>
+            <h3>Example:</h3>
+            <pre>
+<code lang="python">
+import cloth_packing_script
+
+PATH_TO_FILE = "cloth_data.txt"
+result = cloth_packing_script.main(PATH_TO_FILE)
+print(result)
+</code>
+            </pre>
+            <p>This will read the data from the file "cloth_data.txt", pack the boxes, and print the result.</p>
+        </div>
+    </div>
+</body>
+
+</html>
