@@ -13,7 +13,7 @@ from tkinter import Tk, filedialog
 
 def draw_text(text, font, text_col, x, y, text_canvas):
     img = font.render(text, True, text_col)
-    text_canvas.blit(img, (x + (FONT_SIZE // 2) * 1.5, y))
+    text_canvas.blit(img, (x + FONT_SIZE * 1.6, y))
 
 
 def draw_line_numbers(line_no, font, x, y, text_canvas):
@@ -149,6 +149,15 @@ def main():
                         if filename:
                             with open(filename, "w") as file:
                                 file.write("\n".join(text))
+                # Save as using ctrl + shift +s
+                if event.key == pygame.K_s and (
+                    pygame.key.get_mods() & pygame.KMOD_CTRL
+                    and pygame.key.get_mods() & pygame.KMOD_SHIFT
+                ):
+                    filename = filedialog.asksaveasfilename()
+                    if filename:
+                        with open(filename, "w") as file:
+                            file.write("\n".join(text))
                 if event.key == pygame.K_TAB:
                     text[line_no] = (
                         text[line_no][:pos_no]
