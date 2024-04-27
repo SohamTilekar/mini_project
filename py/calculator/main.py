@@ -1,4 +1,5 @@
 import tkinter as tk
+import math
 
 BIG_FONT_STYLE = ("Verdana", 40, "bold")
 SMALL_FONT_STYLE = ("Verdana", 16)
@@ -15,8 +16,7 @@ LABEL_COLOR = "#25265E"
 class CalcApp:
     def __init__(self):
         self.app = tk.Tk()
-        self.app.geometry("375x667")
-        self.app.resizable(0, 0)
+        self.app.geometry("667x375")
         self.app.title("CalcApp")
 
         self.total_expr = ""
@@ -31,9 +31,8 @@ class CalcApp:
             1: (3, 1), 2: (3, 2), 3: (3, 3),
             0: (4, 2), '.': (4, 1)
         }
-        self.operations = {"/": "\u00F7", "*": "\u00D7", "-": "-", "+": "+"}
+        self.operations = {"/": "\u00F7", "*": "\u00D7", "-": "-", "+": "+", "log": "log"}
         self.buttons_frame = self.create_buttons_frame()
-
         self.buttons_frame.rowconfigure(0, weight=1)
         for x in range(1, 5):
             self.buttons_frame.rowconfigure(x, weight=1)
@@ -41,6 +40,13 @@ class CalcApp:
         self.create_number_buttons()
         self.create_operator_buttons()
         self.create_special_buttons()
+        self.create_exp_button()
+        self.create_log_button()
+        self.create_sin_button()
+        self.create_cos_button()
+        self.create_tan_button()
+        self.create_factorial_button()
+        self.create_ln_button()
         self.bind_keys()
 
     def bind_keys(self):
@@ -50,12 +56,80 @@ class CalcApp:
 
         for key in self.operations:
             self.app.bind(key, lambda event, operator=key: self.append_operator(operator))
+        
+        self.app.bind("<BackSpace>", lambda event: self.current_expr[:-1])
+        self.app.bind("<Escape>", lambda event: self.clear())
+        self.app.bind("c", lambda event: self.clear())
 
     def create_special_buttons(self):
         self.create_clear_button()
         self.create_equals_button()
         self.create_square_button()
         self.create_sqrt_button()
+
+    def factorial(self):
+        self.current_expr = str(math.factorial(int(self.current_expr)))
+        self.update_label()
+
+    def create_factorial_button(self):
+        button = tk.Button(self.buttons_frame, text="n!", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE,
+                        borderwidth=0, command=self.factorial)
+        button.grid(row=5, column=1, sticky=tk.NSEW)
+
+    def ln(self):
+        self.current_expr = str(math.log(float(self.current_expr)))
+        self.update_label()
+
+    def create_ln_button(self):
+        button = tk.Button(self.buttons_frame, text="ln", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE,
+                        borderwidth=0, command=self.ln)
+        button.grid(row=5, column=2, sticky=tk.NSEW)
+
+    def log(self):
+        self.current_expr = str(math.log(float(self.current_expr)))
+        self.update_label()
+
+    def create_log_button(self):
+        button = tk.Button(self.buttons_frame, text="log", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE,
+                           borderwidth=0, command=self.log)
+        button.grid(row=0, column=5, sticky=tk.NSEW)
+
+    def exp(self):
+        self.current_expr = str(math.exp(float(self.current_expr)))
+        self.update_label()
+        
+    def create_exp_button(self):
+        button = tk.Button(self.buttons_frame, text="exp", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE,
+                           borderwidth=0, command=self.exp)
+        button.grid(row=1, column=5, sticky=tk.NSEW)
+
+    def sin(self):
+        self.current_expr = str(math.sin(float(self.current_expr)))
+        self.update_label()
+
+    def create_sin_button(self):
+        button = tk.Button(self.buttons_frame, text="sin", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE,
+                           borderwidth=0, command=self.sin)
+        button.grid(row=2, column=5, sticky=tk.NSEW)
+
+    def cos(self):
+        self.current_expr = str(math.cos(float(self.current_expr)))
+        self.update_label()
+
+    def create_cos_button(self):
+        button = tk.Button(self.buttons_frame, text="cos", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE,
+                           borderwidth=0, command=self.cos)
+        button.grid(row=3, column=5, sticky=tk.NSEW)
+
+    def tan(self):
+        self.current_expr = str(math.tan(float(self.current_expr)))
+        self.update_label()
+
+    def create_tan_button(self):
+        button = tk.Button(self.buttons_frame, text="tan", bg=OFF_WHITE, fg=LABEL_COLOR, font=DEFAULT_FONT_STYLE,
+                           borderwidth=0, command=self.tan)
+        button.grid(row=4, column=5, sticky=tk.NSEW)
+
 
     def create_display_labels(self):
         total_label = tk.Label(self.display_frame, text=self.total_expr, anchor=tk.E, bg=LIGHT_GRAY,
@@ -134,7 +208,7 @@ class CalcApp:
             self.current_expr = str(eval(self.total_expr))
 
             self.total_expr = ""
-        except Exception as e:
+        except Exception:
             self.current_expr = "Error"
         finally:
             self.update_label()
